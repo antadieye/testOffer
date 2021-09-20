@@ -41,7 +41,7 @@ public class JPAUnitUserTest {
 		UserEntity user1 = new UserEntity(0, "Anta DIEYE", localDate, "French", "+221777911383", "Feminine", "anta.dieye@atos.net");
 		entityManager.persist(user1);
 
-		UserEntity user2 = new UserEntity(0, "Khalifa NDIAYE", localDate, "French", "+221775273025", "Male", "khalifa.ndiaye@atos.net");
+		UserEntity user2 = new UserEntity(0, "Khalifa NDIAYE", localDate, "French", "+3 6 26 02 45 81", "Male", "khalifa.ndiaye@atos.net");
 		entityManager.persist(user2);
 
 		UserEntity foundUser = repository.findById(user2.getId()).get();
