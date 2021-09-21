@@ -34,7 +34,7 @@ public class UserController {
 	public ResponseEntity<UserEntity> createUser(@Valid @RequestBody UserEntity user) throws ResourceBadRequestException {
 		try {
 			Period diff = Period.between(LocalDate.parse(user.getBirthDate().toString()), LocalDate.now());
-			if (user.getCountryResidence().equalsIgnoreCase("French") && diff.getYears() >= 18) {
+			if (user.getCountryResidence().equalsIgnoreCase("France") && diff.getYears() >= 18) {
 				UserEntity _user = userServiceI.createUser(new UserEntity(0, user.getName(), user.getBirthDate(),
 						user.getCountryResidence(), user.getPhoneNumber(), user.getGender(), user.getEmail()));
 				return new ResponseEntity<>(_user, HttpStatus.CREATED);
