@@ -20,22 +20,22 @@ import org.springframework.web.bind.annotation.RestController;
 import com.app.testoffer.exception.ResourceBadRequestException;
 import com.app.testoffer.exception.ResourceNotFoundException;
 import com.app.testoffer.model.UserEntity;
-import com.app.testoffer.service.UserService;
+import com.app.testoffer.service.UserServiceInterface;
 
 @RestController
 @RequestMapping("/api")
 public class UserController {
 
 	@Autowired
-	UserService userService;
+	UserServiceInterface userServiceI;
 
 	// To call save methode to save new user 
 	@PostMapping("/saveUser")
-	public ResponseEntity<UserEntity> createUsers(@Valid @RequestBody UserEntity user) throws ResourceBadRequestException {
+	public ResponseEntity<UserEntity> createUser(@Valid @RequestBody UserEntity user) throws ResourceBadRequestException {
 		try {
 			Period diff = Period.between(LocalDate.parse(user.getBirthDate().toString()), LocalDate.now());
 			if (user.getCountryResidence().equalsIgnoreCase("French") && diff.getYears() >= 18) {
-				UserEntity _user = userService.creerUser(new UserEntity(0, user.getName(), user.getBirthDate(),
+				UserEntity _user = userServiceI.createUser(new UserEntity(0, user.getName(), user.getBirthDate(),
 						user.getCountryResidence(), user.getPhoneNumber(), user.getGender(), user.getEmail()));
 				return new ResponseEntity<>(_user, HttpStatus.CREATED);
 			}
@@ -49,8 +49,8 @@ public class UserController {
 	}
 	// To find user by id
 	@GetMapping("/getUser/{id}")
-	public ResponseEntity<UserEntity> getUtilisateurById(@PathVariable("id") long id) throws ResourceNotFoundException {
-		Optional<UserEntity> userData = userService.getUtilisateurById(id);
+	public ResponseEntity<UserEntity> getUserById(@PathVariable("id") long id) throws ResourceNotFoundException {
+		Optional<UserEntity> userData = userServiceI.getUserById(id);
 		if (userData.isPresent()) {
 			return new ResponseEntity<>(userData.get(), HttpStatus.OK);
 		} else {
