@@ -1,37 +1,60 @@
 package com.app.testoffer.service;
 
-import java.time.temporal.ChronoUnit;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.app.testoffer.aspect.LogEntryExit;
-import com.app.testoffer.exception.ResourceNotFoundException;
+import com.app.testoffer.exception.ResourceException;
 import com.app.testoffer.model.UserEntity;
 import com.app.testoffer.repository.UserRepository;
 
 @Component
+/**
+ * 
+ * @author A697004
+ *
+ */
 public class UserService implements UserServiceInterface{
 
-	@Autowired
+	/**
+	 * calls the UserRepository class which allows it to store and display the details of a user.
+	 */
 	UserRepository userRepository;
+	public UserService(UserRepository userRepository) {
+		super();
+		this.userRepository = userRepository;
+	}
+
 	
-	
-	// Methode to save new user 
-	
-	@LogEntryExit(showArgs = true, showResult = true, unit = ChronoUnit.MILLIS)
+	/**
+	 *  Methode to save new user 
+	 */
 	@Override
-	public UserEntity createUser(UserEntity user) {
-		return userRepository.save(user);
+	public UserEntity createUser(UserEntity user) throws ResourceException {
+		Period diff = Period.between(LocalDate.parse(user.getBirthDate().toString()), LocalDate.now());
+		if (user.getCountryResidence().equalsIgnoreCase("France") && diff.getYears() >= 18) {
+			return userRepository.save(user);
+		}
+		else {
+				throw new ResourceException("Inconsistency! Please check the data entered.");
+		}
+
 	}
 	
-	// Methode To find user by id
-	
-	@LogEntryExit(showArgs = true, showResult = true, unit = ChronoUnit.MILLIS)
+	/**
+	 * Methode To find user by id
+	 */
 	@Override
-	public Optional<UserEntity> getUserById(Long id) throws ResourceNotFoundException {
-		return userRepository.findById(id);
+	public Optional<UserEntity> findUserById(Long id) throws ResourceException {
+		Optional<UserEntity> userData = userRepository.findById(id);
+		if (userData.isPresent()) {
+			return userRepository.findById(id);
+		} else {
+			throw new ResourceException("User not found.");
+			
+		}
 	}
 	
 }

@@ -5,6 +5,11 @@ import org.springframework.stereotype.Repository;
 
 import com.app.testoffer.model.UserEntity;
 
+/**
+ * 
+ * @author A697004
+ *
+ */
 @Repository
 public interface UserRepository extends JpaRepository<UserEntity, Long>{
 

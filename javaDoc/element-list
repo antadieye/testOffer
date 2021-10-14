@@ -1,0 +1,8 @@
+com.app.testoffer
+com.app.testoffer.aspect
+com.app.testoffer.controller
+com.app.testoffer.exception
+com.app.testoffer.mm
+com.app.testoffer.model
+com.app.testoffer.repository
+com.app.testoffer.service

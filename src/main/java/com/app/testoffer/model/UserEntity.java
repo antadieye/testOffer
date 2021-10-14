@@ -21,6 +21,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -36,6 +37,13 @@ import lombok.ToString;
 @Table(name = "USER")
 @Getter
 @Setter
+@Data
+
+/**
+ * 
+ * @author A697004
+ *
+ */
 public class UserEntity implements Serializable{
 
 	/**
@@ -43,6 +51,7 @@ public class UserEntity implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "UserIdGenerator")
 	@GenericGenerator(name = "UserIdGenerator", strategy = "native")
